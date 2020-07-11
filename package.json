@@ -15,7 +15,6 @@
     "node": "^12.13.0"
   },
   "scripts": {
-  	"start": "node app.js",
-  	"build": "webpack"
+  	"start": "node app.js"
   }
 }
