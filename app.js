@@ -1,10 +1,21 @@
-var express = require('express');
-var app = express();
+const express = require("express");
+const loaders = require("./config/loader");
+const config = require("./config");
+const routes = require("./routes");
 
-app.get('/', function (req, res) {
-  res.send('Hello World !');
-});
+async function startServer() {
+  const app = express();
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+  loaders(app);
+  app.use("/", routes);
+
+  app.listen(config.PORT, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(`Your server is ready !`);
+  });
+}
+
+startServer();
