@@ -4,9 +4,9 @@ const customerCtrl = require("./customerCtrl");
 
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get("/reset", function (req, res) {
+router.get("/reset/:fileName", async function (req, res) {
   try {
-    customerCtrl.reset();
+    await customerCtrl.reset(req.params.fileName);
     console.log("Database reset : sucessesfull");
     res.json({ reset: true });
   } catch (err) {

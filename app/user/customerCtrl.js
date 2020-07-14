@@ -1,19 +1,21 @@
 const mongoose = require("mongoose");
 const csvtojson = require("csvtojson");
+const fs = require("fs");
 const Customer = require("./customerModel");
 
 // remove all customers & insert them again from dataset.csv
-async function resetDB() {
+async function resetDB(fileName) {
   // remove all data
   Customer.find({}).remove(function (err, res) {
     if (err) throw Error(err);
-    console.log("reset successful");
     console.log(res);
   });
 
   // import from csv
-  const csvFilePath = __dirname + "/../../assets/dataset_simple.csv";
-  console.log(csvFilePath);
+  let csvFilePath = __dirname + "/../../assets/" + fileName + ".csv";
+  if (!fs.existsSync(csvFilePath)) {
+    csvFilePath = __dirname + "/../../assets/dataset_simple.csv";
+  }
 
   csvtojson()
     .fromFile(csvFilePath)
@@ -26,6 +28,13 @@ async function resetDB() {
           console.log("error: csv not loaded");
         });
     });
+}
+
+async function countCustomers() {
+  Customer.countDocuments({}, function (err, count) {
+    console.log(count);
+    return count;
+  });
 }
 
 async function getCustomer(mobile_num) {
