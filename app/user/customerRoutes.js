@@ -13,4 +13,15 @@ router.get("/reset", function (req, res) {
   }
 });
 
+router.get("/:mobile_num", async function (req, res) {
+  try {
+    let customer = await customerCtrl.getCustomer(req.params.mobile_num);
+    console.log("get customer : " + req.params.mobile_num + " => sucessesfull");
+    res.json(customer);
+  } catch {
+    console.log("get customer : " + req.params.mobile_num + " => error");
+    res.send("get customer : " + req.params.mobile_num + " => error");
+  }
+});
+
 module.exports = router;

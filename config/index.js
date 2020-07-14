@@ -12,5 +12,5 @@ if (!envFound) {
 // Export ENV vars
 module.exports = {
   PORT: process.env.PORT || parseInt(process.env.dbPort, 10),
-  DB_URL: process.env.dbUrl,
+  DB_URL: process.env.MONGODB_URI || process.env.dbUrl,
 };

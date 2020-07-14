@@ -32,8 +32,18 @@ async function resetDB() {
   });*/
 }
 
+async function getCustomer(mobile_num) {
+  let c = await Customer.findOne(
+    { mobile_number: mobile_num },
+    { _id: 0, __v: 0 }
+  );
+  console.log("customer num : " + c.mobile_number + " => churn: " + c.churn);
+  return c;
+}
+
 const controller = {
   reset: resetDB,
+  getCustomer: getCustomer,
 };
 
 module.exports = controller;

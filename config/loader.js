@@ -8,7 +8,7 @@ module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   mongoose
-    .connect(process.env.MONGODB_URI || config.DB_URL, {
+    .connect(config.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
