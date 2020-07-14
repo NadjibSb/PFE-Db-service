@@ -41,9 +41,20 @@ async function getCustomer(mobile_num) {
   return c;
 }
 
+async function getAllMobileNum() {
+  let list = await Customer.find({}).select({ mobile_number: 1, _id: 0 });
+  console.log(list);
+  let nums = [];
+  list.forEach((item) => {
+    nums.push(item.mobile_number);
+  });
+  return nums;
+}
+
 const controller = {
   reset: resetDB,
   getCustomer: getCustomer,
+  getAllMobileNum: getAllMobileNum,
 };
 
 module.exports = controller;

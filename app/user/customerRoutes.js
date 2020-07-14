@@ -13,6 +13,17 @@ router.get("/reset", function (req, res) {
   }
 });
 
+router.get("/all", async function (req, res) {
+  try {
+    let list = await customerCtrl.getAllMobileNum();
+    console.log("get all customers => sucessesfull");
+    res.json(list);
+  } catch {
+    console.log("get all customers  => error");
+    res.send("get all customers  => error");
+  }
+});
+
 router.get("/:mobile_num", async function (req, res) {
   try {
     let customer = await customerCtrl.getCustomer(req.params.mobile_num);
