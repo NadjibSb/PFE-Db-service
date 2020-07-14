@@ -26,10 +26,6 @@ async function resetDB() {
           console.log("error: csv not loaded");
         });
     });
-  /*
-  var newitem = Customer(user).save(function (err, data) {
-    if (err) throw err;
-  });*/
 }
 
 async function getCustomer(mobile_num) {
@@ -38,6 +34,16 @@ async function getCustomer(mobile_num) {
     { _id: 0, __v: 0 }
   );
   console.log("customer num : " + c.mobile_number + " => churn: " + c.churn);
+  return c;
+}
+
+async function updateCustomer(mobile_num, fields) {
+  let c = await Customer.findOneAndUpdate(
+    { mobile_number: mobile_num },
+    fields,
+    { new: true }
+  );
+  //console.log("customer num : " + c.mobile_number + " => churn: " + c.churn);
   return c;
 }
 
@@ -53,7 +59,8 @@ async function getAllMobileNum() {
 
 const controller = {
   reset: resetDB,
-  getCustomer: getCustomer,
+  get: getCustomer,
+  update: updateCustomer,
   getAllMobileNum: getAllMobileNum,
 };
 

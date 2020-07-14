@@ -58,4 +58,4 @@ const customerSchema = mongoose.Schema(
   { strict: false }
 );
 
-module.exports = mongoose.model("abonne", customerSchema);
+module.exports = mongoose.model("customer", customerSchema);
