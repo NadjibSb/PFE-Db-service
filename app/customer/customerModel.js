@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const customerSchema = mongoose.Schema(
   {
-    index: Number,
     mobile_number: { type: String, unique: true, required: true },
     arpu_6: Number,
     arpu_7: Number,
@@ -53,6 +52,7 @@ const customerSchema = mongoose.Schema(
     count_2g3g: Number,
     vol_2g3g: Number,
     monthly_2g3g: Number,
+    segment: Number,
     churn: Boolean,
   },
   { strict: false }

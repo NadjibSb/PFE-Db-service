@@ -16,9 +16,21 @@ router.get("/reset/:fileName", async function (req, res) {
   }
 });
 
-router.get("/all", async function (req, res) {
+router.get("/allNums", async function (req, res) {
   try {
     let list = await customerCtrl.getAllMobileNum();
+    console.log("get all customers nums => sucessesfull");
+    res.json(list);
+  } catch (err) {
+    console.log("get all customers nums => error");
+    console.log(err);
+    res.json({ error: true, body: err });
+  }
+});
+
+router.get("/all/:page", async function (req, res) {
+  try {
+    let list = await customerCtrl.getAll(req.params.page);
     console.log("get all customers => sucessesfull");
     res.json(list);
   } catch (err) {
@@ -42,12 +54,27 @@ router.get("/get/:mobile_num", async function (req, res) {
 
 router.post("/update/:mobile_num", async function (req, res) {
   try {
-    let customer = await customerCtrl.update(req.params.mobile_num, req.body);
+    let customer = await customerCtrl.updateOne(
+      req.params.mobile_num,
+      req.body
+    );
     console.log(
       "update customer : " + req.params.mobile_num + " => sucessesfull"
     );
     console.log(req.body);
     res.json(customer);
+  } catch (err) {
+    console.log("update customer : " + req.params.mobile_num + " => error");
+    console.log(err);
+    res.json({ error: true, body: err });
+  }
+});
+
+router.post("/update", async function (req, res) {
+  try {
+    let customerList = await customerCtrl.updateMult(req.body);
+    //console.log(req.body);
+    res.json(customerList);
   } catch (err) {
     console.log("update customer : " + req.params.mobile_num + " => error");
     console.log(err);

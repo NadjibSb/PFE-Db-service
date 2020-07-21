@@ -3,6 +3,8 @@ const csvtojson = require("csvtojson");
 const fs = require("fs");
 const Customer = require("./customerModel");
 
+const PER_PAGE = 50;
+
 // remove all customers & insert them again from dataset.csv
 async function resetDB(fileName) {
   // remove all data
@@ -56,6 +58,24 @@ async function updateCustomer(mobile_num, fields) {
   return c;
 }
 
+async function updateMultConstumers(costumers) {
+  let newList = [];
+  costumers.forEach(async (c, key) => {
+    const { mobile_num, ...fields } = c;
+    newC = await updateCustomer(mobile_num, fields);
+    newList.push(newC);
+  });
+  return newList;
+}
+
+async function getAllCustomers(page) {
+  let list = await Customer.find({})
+    .select({ _id: 0 })
+    .skip(page * PER_PAGE)
+    .limit(PER_PAGE);
+  return list;
+}
+
 async function getAllMobileNum() {
   let list = await Customer.find({}).select({ mobile_number: 1, _id: 0 });
   console.log(list);
@@ -69,8 +89,10 @@ async function getAllMobileNum() {
 const controller = {
   reset: resetDB,
   get: getCustomer,
-  update: updateCustomer,
+  updateOne: updateCustomer,
+  updateMult: updateMultConstumers,
   getAllMobileNum: getAllMobileNum,
+  getAll: getAllCustomers,
 };
 
 module.exports = controller;

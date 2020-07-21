@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const customerRoutes = require("../app/user/customerRoutes");
+const customerRoutes = require("../app/customer/customerRoutes");
 
 router.get("/", function (req, res) {
   res.send("server is up");
