@@ -73,8 +73,13 @@ router.post("/update/:mobile_num", async function (req, res) {
 router.post("/update", async function (req, res) {
   try {
     let customerList = await customerCtrl.updateMult(req.body);
-    //console.log(req.body);
-    res.json(customerList);
+    Promise.all(customerList)
+      .then((results) => {
+        res.json(results);
+      })
+      .catch((e) => {
+        throw e;
+      });
   } catch (err) {
     console.log("update customer : " + req.params.mobile_num + " => error");
     console.log(err);

@@ -59,11 +59,10 @@ async function updateCustomer(mobile_num, fields) {
 }
 
 async function updateMultConstumers(costumers) {
-  let newList = [];
-  costumers.forEach(async (c, key) => {
+  let newList = await costumers.map(async (c) => {
     const { mobile_num, ...fields } = c;
     newC = await updateCustomer(mobile_num, fields);
-    newList.push(newC);
+    return newC;
   });
   return newList;
 }
