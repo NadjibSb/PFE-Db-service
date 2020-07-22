@@ -28,13 +28,27 @@ router.get("/allNums", async function (req, res) {
   }
 });
 
+router.get("/count", async function (req, res) {
+  try {
+    let size = await customerCtrl.getSize();
+    console.log("get all customers size => sucessesfull");
+    res.json(size);
+  } catch (err) {
+    console.log("get all customers size => error");
+    console.log(err);
+    res.json({ error: true, body: err });
+  }
+});
+
 router.get("/all/:page", async function (req, res) {
   try {
     let list = await customerCtrl.getAll(req.params.page);
-    console.log("get all customers => sucessesfull");
+    console.log(
+      "get all customers=> page " + req.params.page + " => sucessesfull"
+    );
     res.json(list);
   } catch (err) {
-    console.log("get all customers  => error");
+    console.log("get all customers=> page " + req.params.page + " => error");
     console.log(err);
     res.json({ error: true, body: err });
   }
@@ -72,6 +86,7 @@ router.post("/update/:mobile_num", async function (req, res) {
 
 router.post("/update", async function (req, res) {
   try {
+    console.log(req.body);
     let customerList = await customerCtrl.updateMult(req.body);
     Promise.all(customerList)
       .then((results) => {

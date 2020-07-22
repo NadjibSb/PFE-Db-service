@@ -32,11 +32,12 @@ async function resetDB(fileName) {
     });
 }
 
-async function countCustomers() {
-  Customer.countDocuments({}, function (err, count) {
-    console.log(count);
-    return count;
-  });
+async function getAllCustomersCount() {
+  const count = await Customer.countDocuments();
+  const nbrP = parseInt(count / PER_PAGE) + 1;
+  const res = { total: count, pages: nbrP };
+  console.log(res);
+  return res;
 }
 
 async function getCustomer(mobile_num) {
@@ -60,8 +61,9 @@ async function updateCustomer(mobile_num, fields) {
 
 async function updateMultConstumers(costumers) {
   let newList = await costumers.map(async (c) => {
-    const { mobile_num, ...fields } = c;
-    newC = await updateCustomer(mobile_num, fields);
+    const { mobile_number, ...fields } = c;
+    console.log(fields);
+    newC = await updateCustomer(mobile_number, fields);
     return newC;
   });
   return newList;
@@ -70,7 +72,7 @@ async function updateMultConstumers(costumers) {
 async function getAllCustomers(page) {
   let list = await Customer.find({})
     .select({ _id: 0 })
-    .skip(page * PER_PAGE)
+    .skip((page - 1) * PER_PAGE)
     .limit(PER_PAGE);
   return list;
 }
@@ -91,6 +93,7 @@ const controller = {
   updateOne: updateCustomer,
   updateMult: updateMultConstumers,
   getAllMobileNum: getAllMobileNum,
+  getSize: getAllCustomersCount,
   getAll: getAllCustomers,
 };
 
