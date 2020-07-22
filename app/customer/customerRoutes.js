@@ -86,10 +86,10 @@ router.post("/update/:mobile_num", async function (req, res) {
 
 router.post("/update", async function (req, res) {
   try {
-    console.log(req.body);
     let customerList = await customerCtrl.updateMult(req.body);
     Promise.all(customerList)
       .then((results) => {
+        console.log("updated cutomers : " + results.length);
         res.json(results);
       })
       .catch((e) => {

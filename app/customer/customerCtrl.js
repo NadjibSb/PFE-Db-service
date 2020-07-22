@@ -55,14 +55,12 @@ async function updateCustomer(mobile_num, fields) {
     fields,
     { new: true }
   );
-  //console.log("customer num : " + c.mobile_number + " => churn: " + c.churn);
   return c;
 }
 
 async function updateMultConstumers(costumers) {
   let newList = await costumers.map(async (c) => {
     const { mobile_number, ...fields } = c;
-    console.log(fields);
     newC = await updateCustomer(mobile_number, fields);
     return newC;
   });
