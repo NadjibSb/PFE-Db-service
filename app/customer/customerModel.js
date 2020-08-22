@@ -54,6 +54,7 @@ const customerSchema = mongoose.Schema(
     monthly_2g3g: Number,
     segment: Number,
     churn: Boolean,
+    pred_churn: Boolean,
   },
   { strict: false }
 );

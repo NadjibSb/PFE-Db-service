@@ -3,7 +3,7 @@ const csvtojson = require("csvtojson");
 const fs = require("fs");
 const Customer = require("./customerModel");
 
-const PER_PAGE = 50;
+const PER_PAGE = 100;
 
 // remove all customers & insert them again from dataset.csv
 async function resetDB(fileName) {
@@ -67,9 +67,9 @@ async function updateMultConstumers(costumers) {
   return newList;
 }
 
-async function getAllCustomers(page) {
+async function getAllCustomers(page, selectedFields) {
   let list = await Customer.find({})
-    .select({ _id: 0 })
+    .select({ _id: 0, ...selectedFields })
     .skip((page - 1) * PER_PAGE)
     .limit(PER_PAGE);
   return list;

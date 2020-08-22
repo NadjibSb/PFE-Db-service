@@ -42,7 +42,16 @@ router.get("/count", async function (req, res) {
 
 router.get("/all/:page", async function (req, res) {
   try {
-    let list = await customerCtrl.getAll(req.params.page);
+    let fields = req.query;
+    Object.keys(fields).map(function (key, index) {
+      try {
+        fields[key] = parseInt(fields[key]);
+      } catch (e) {
+        throw e;
+      }
+    });
+    console.log({ ...fields });
+    let list = await customerCtrl.getAll(req.params.page, fields);
     console.log(
       "get all customers=> page " + req.params.page + " => sucessesfull"
     );
